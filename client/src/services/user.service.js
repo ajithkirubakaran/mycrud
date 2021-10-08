@@ -1,4 +1,4 @@
-import axios from '../axios';
+import axios from 'axios';
 
 class UserDataService {
   create(data) {
@@ -18,4 +18,4 @@ class UserDataService {
   }
 }
 
-export default new TutorialDataService();
+export default new UserDataService();

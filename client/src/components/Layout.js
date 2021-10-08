@@ -6,9 +6,53 @@ import Container from "react-bootstrap/Container"
 import Form from "react-bootstrap/Form"
 import Row from "react-bootstrap/Row"
 import Table from "react-bootstrap/Table"
+import React, { useState } from "react";
+import UserDataService from "../services/user.service.js";
 
-export default function MyLayout() {
-  return (
+
+
+    const AddUser = () => {
+      const initialUserState = {
+        id: null,
+        email: "",
+        password: "",
+    };
+
+    const [user, setUser] = useState(initialUserState);
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleInputChange = event => {
+      const { name, value } = event.target;
+      setUser({ ...user, [name]: value });
+    };
+
+    const saveUser = () => {
+      var data = {
+        email: user.email,
+        password: user.password
+      };
+
+      UserDataService.create(data)
+        .then(response => {
+         setUser({
+           id: response.data.id,
+           email: response.data.email,
+           password: response.data.password
+         });
+         setSubmitted(true);
+          console.log(response.data);
+         })
+         .catch(e => {
+          console.log(e);
+         });
+    };
+
+    const newUser = () => {
+      setUser(initialUserState);
+      setSubmitted(false);
+    };
+
+    return (
         <Container className='pt-5 mt-5'>
           <Row>
             <Col xs={12} md={4}>
@@ -17,13 +61,27 @@ export default function MyLayout() {
 			   <Form>
 				<Form.Group className="mb-3" controlId="formBasicEmailSubmit">
 				 <Form.Label>Email address</Form.Label>
-				 <Form.Control type="email" placeholder="Enter email" />
+				 <Form.Control 
+				 type="email" 
+				 id="email" 
+                 value={user.email}
+                 onChange={handleInputChange}
+				 name="email" 
+				 placeholder="Enter email" 
+				 />
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicPasswordSubmit">
 				 <Form.Label>Password</Form.Label>
-				 <Form.Control type="password" placeholder="Password" />
+				 <Form.Control 
+				 type="password"
+				 id="password"
+                 value={user.password}
+                 onChange={handleInputChange}	
+                 name="password"				 
+				 placeholder="Password" 
+				 />
 				</Form.Group>				
-				<Button variant="primary" type="submit">
+				<Button onClick={saveUser} variant="primary" type="submit">
 				Submit
 				</Button>
 			   </Form>					
@@ -37,8 +95,8 @@ export default function MyLayout() {
  			    <thead>
 			     <tr>
 			      <th>#</th>
-			      <th>First Name</th>
-			      <th>Last Name</th>
+			      <th>Email</th>
+			      <th>Password</th>
 			     </tr>
 			    </thead>
 			   </Table>  
@@ -49,7 +107,14 @@ export default function MyLayout() {
 			   <Form>
 				<Form.Group className="mb-3" controlId="formBasicEmailSearch">
 				 <Form.Label>Email address</Form.Label>				
-			     <Form.Control type="text" placeholder="Enter email" />
+				 <Form.Control 
+				 type="email" 
+				 id="email" 
+                 value={user.email}
+                 onChange={handleInputChange}
+				 name="email" 
+				 placeholder="Enter email" 
+				 />
 				</Form.Group>
 				<Button variant="primary" type="submit">
 				Search
@@ -64,11 +129,25 @@ export default function MyLayout() {
 			   <Form>
 				<Form.Group className="mb-3" controlId="formBasicEmailUpdate">
 				 <Form.Label>Email address</Form.Label>				
-			     <Form.Control type="email" placeholder="Enter email" />
+				 <Form.Control 
+				 type="email" 
+				 id="email" 
+                 value={user.email}
+                 onChange={handleInputChange}
+				 name="email" 
+				 placeholder="Enter email" 
+				 />
 				</Form.Group>
 				<Form.Group className="mb-3" controlId="formBasicPasswordUpdate">
 				 <Form.Label>Password</Form.Label>
-				 <Form.Control type="password" placeholder="Password" />
+				 <Form.Control 
+				 type="password"
+				 id="password"
+                 value={user.password}
+                 onChange={handleInputChange}	
+                 name="password"				 
+				 placeholder="Password" 
+				 />
 				</Form.Group>				
 				<Button variant="primary" type="submit">
 				Update
@@ -81,7 +160,14 @@ export default function MyLayout() {
 			   <Form>
 				<Form.Group className="mb-3" controlId="formBasicEmailDelete">
 				 <Form.Label>Email address</Form.Label>				
-			     <Form.Control type="text" placeholder="Enter email" />
+				 <Form.Control 
+				 type="email" 
+				 id="email" 
+                 value={user.email}
+                 onChange={handleInputChange}
+				 name="email" 
+				 placeholder="Enter email" 
+				 />
 				</Form.Group>
 				<Button variant="primary" type="submit">
 				Delete
@@ -92,5 +178,7 @@ export default function MyLayout() {
             </Col>			
           </Row>
         </Container>
-  );
-}		
+    );
+    };
+
+export default AddUser		

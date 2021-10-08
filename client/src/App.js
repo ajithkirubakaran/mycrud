@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import MyNavbar from './components/Navbar';
-import MyLayout from './components/Layout';
+import AddUser from './components/Layout';
 import axios from 'axios';
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
       <div className="App">
         <header className="my-header">
 		  <MyNavbar/>
-		  <MyLayout/>
+		  <AddUser/>
         </header>
         <p className="App-intro pt-5 mt-5">{this.state.data}</p>
       </div>
